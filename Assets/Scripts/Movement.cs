@@ -11,22 +11,36 @@ public class Movement : MonoBehaviour
     private Rigidbody2D rb;
     private bool isJumping;
     private bool switchSprite;
+    private Animator animator;
+    private float timeIdle;
     // Start is called before the first frame update
     void Start()
     {
+        animator = gameObject.GetComponentInChildren<Animator>();
         switchSprite = false;
         isJumping = true;
         rb = gameObject.GetComponent<Rigidbody2D>();
+        timeIdle = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        timeIdle += Time.deltaTime;
 
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !isJumping)
         {
             rb.AddForce(new Vector2(0, jump * rb.mass), ForceMode2D.Impulse);
             isJumping = true;
+        }
+
+        //5 seconds
+        if (timeIdle >= 5f)
+        {
+            animator.SetTrigger("Idle");
+        } else
+        {
+            animator.ResetTrigger("Idle");
         }
 
         Debug.Log("isJumping:" + isJumping);
@@ -47,10 +61,18 @@ public class Movement : MonoBehaviour
         if (horizontalInput < 0)
         {
             switchSprite = true;
+            timeIdle = 0;
+            animator.SetTrigger("Running");
         } else if (horizontalInput > 0)
         {
             switchSprite = false;
+            timeIdle = 0;
+            animator.SetTrigger("Running");
+        } else
+        {
+            animator.ResetTrigger("Running");
         }
+
 
         MovePlayer(move);
     }
