@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         animator = gameObject.GetComponentInChildren<Animator>();
-        switchSprite = false;
+        switchSprite = true;
         isJumping = true;
         rb = gameObject.GetComponent<Rigidbody2D>();
         timeIdle = 0;
@@ -34,8 +34,8 @@ public class Movement : MonoBehaviour
             isJumping = true;
         }
 
-        //5 seconds
-        if (timeIdle >= 5f)
+        //2 seconds
+        if (timeIdle >= 2f)
         {
             animator.SetTrigger("Idle");
         } else
@@ -43,8 +43,7 @@ public class Movement : MonoBehaviour
             animator.ResetTrigger("Idle");
         }
 
-        Debug.Log("isJumping:" + isJumping);
-        gameObject.GetComponent<SpriteRenderer>().flipX = switchSprite;
+        gameObject.GetComponentInChildren<SpriteRenderer>().flipX = switchSprite;
 
     }
     private void FixedUpdate()
@@ -60,12 +59,12 @@ public class Movement : MonoBehaviour
 
         if (horizontalInput < 0)
         {
-            switchSprite = true;
+            switchSprite = false;
             timeIdle = 0;
             animator.SetTrigger("Running");
         } else if (horizontalInput > 0)
         {
-            switchSprite = false;
+            switchSprite = true;
             timeIdle = 0;
             animator.SetTrigger("Running");
         } else
