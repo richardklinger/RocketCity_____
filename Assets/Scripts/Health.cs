@@ -11,6 +11,14 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //If exiting duck hunt
+        if (Globals.DHunt)
+        {
+            Globals.DHunt = false;
+            checkpoint = Globals.coords;
+            gameObject.transform.position = checkpoint;
+        }
+
         health = maxHealth;
     }
 

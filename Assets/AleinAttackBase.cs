@@ -22,6 +22,8 @@ public class AleinAttackBase : MonoBehaviour
         if(Enemies.transform.childCount <= 0)
         {
             Debug.Log("Game End - you win!");
+            Globals.winDHunt = true;
+            Globals.transitionToPlatformer();
         }
        
         Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
